@@ -1,0 +1,60 @@
+###
+GET http://localhost:3000/api/user/1
+accessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJ1c2UxQHVzZS51c2UiLCJuYW1lIjoidXNlMSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNjg1MzQ0MDkxLCJleHAiOjE2ODUzNDc2OTF9.Jw8sb4Zcbeo_6j5EFFQ2r37y4spaJ-MWNUHN6wjry5s
+
+
+
+###
+POST http://localhost:3000/api/register
+Content-Type: application/json
+
+{
+    "name": "use",
+    "email": "use@use.use",
+    "password": "1sampai8"
+}
+
+###
+POST http://localhost:3000/api/login
+Content-Type: application/json
+
+{
+    "username": "use1@use.use",
+    "password": "1sampai8"
+}
+
+###
+POST http://localhost:3000/api/post
+Content-Type: application/json
+
+{
+    "title": "Hello Hello Bandung",
+    "authorId": 1
+}
+###
+PATCH    http://localhost:3000/api/kerusakan/8
+Content-Type: application/json
+
+{
+    "kerusakanCode": "K10",
+    "kerusakanName": "Kerusakan 10 Updated"
+}
+
+###
+DELETE    http://localhost:3000/api/kerusakan/K003
+
+# EVIDENCE
+###
+GET http://localhost:3000/api/evidence
+
+###
+POST  http://localhost:3000/api/evidence
+Content-Type: application/json
+
+{
+    "evidenceCode": "E2",
+    "evidenceName": "Evidence 2"
+}
+
+###
+DELETE  http://localhost:3000/api/evidence/1
