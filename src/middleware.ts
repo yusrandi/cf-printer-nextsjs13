@@ -5,5 +5,6 @@ export const config = {
         "/user/:path*",
         "/kerusakan/:path*",
         "/evidence/:path*",
+        "/pengetahuan/:path*",
     ]
 };

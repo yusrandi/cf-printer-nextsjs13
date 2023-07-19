@@ -1,30 +1,39 @@
 ###
-GET http://localhost:3000/api/user/1
-accessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJ1c2UxQHVzZS51c2UiLCJuYW1lIjoidXNlMSIsInJvbGUiOiJVU0VSIiwiaWF0IjoxNjg1MzQ0MDkxLCJleHAiOjE2ODUzNDc2OTF9.Jw8sb4Zcbeo_6j5EFFQ2r37y4spaJ-MWNUHN6wjry5s
-
-
+GET  http://aksipriteps.site/api/user
 
 ###
-POST http://localhost:3000/api/register
+PATCH  http://aksipriteps.site/api/user/6
 Content-Type: application/json
 
 {
-    "name": "use",
-    "email": "use@use.use",
+    "name": "user Update",
+    "email": "user@use.use",
+    "password": "12345678",
+    "role": "ADMIN"
+}
+
+###
+POST http://aksipriteps.site/api/register
+Content-Type: application/json
+
+{
+    "name": "user2",
+    "email": "user2@use.use",
+    "password": "1sampai8",
+    "role": "USER"
+}
+
+###
+POST http://aksipriteps.site/api/login
+Content-Type: application/json
+
+{
+    "username": "use@use.use",
     "password": "1sampai8"
 }
 
 ###
-POST http://localhost:3000/api/login
-Content-Type: application/json
-
-{
-    "username": "use1@use.use",
-    "password": "1sampai8"
-}
-
-###
-POST http://localhost:3000/api/post
+POST http://aksipriteps.site/api/post
 Content-Type: application/json
 
 {
@@ -32,29 +41,61 @@ Content-Type: application/json
     "authorId": 1
 }
 ###
-PATCH    http://localhost:3000/api/kerusakan/8
+POST  http://aksipriteps.site/api/kerusakan
 Content-Type: application/json
 
 {
-    "kerusakanCode": "K10",
-    "kerusakanName": "Kerusakan 10 Updated"
+    "kerusakanCode": "K03",
+    "kerusakanName": "Kerusakan 3",
+    "perbaikan": "Perbaikanna ini"
 }
 
 ###
-DELETE    http://localhost:3000/api/kerusakan/K003
+GET  http://aksipriteps.site/api/kerusakan
 
 # EVIDENCE
 ###
-GET http://localhost:3000/api/evidence
+GET http://aksipriteps.site/api/evidence
 
 ###
-POST  http://localhost:3000/api/evidence
+POST  http://aksipriteps.site/api/evidence
 Content-Type: application/json
 
 {
-    "evidenceCode": "E2",
-    "evidenceName": "Evidence 2"
+    "evidenceCode": "E06",
+    "evidenceName": "Evidence 06"
 }
 
 ###
-DELETE  http://localhost:3000/api/evidence/1
+DELETE  http://aksipriteps.site/api/evidence/1
+
+# PENGETAHUAN
+
+###
+GET http://aksipriteps.site/api/pengetahuan
+###
+DELETE  http://aksipriteps.site/api/pengetahuan/3
+
+###
+POST http://aksipriteps.site/api/pengetahuan
+Content-Type: application/json
+
+{
+    "kerusakanId": 2,
+    "evidenceId": 2,
+    "bobot": 0.8
+}
+
+# DIAGNOSA
+
+###
+GET   http://aksipriteps.site/api/diagnosa
+###
+POST http://aksipriteps.site/api/diagnosa
+Content-Type: application/json
+
+{
+    "kerusakanId": 6,
+    "userId": 1,
+    "nilai": 87
+}

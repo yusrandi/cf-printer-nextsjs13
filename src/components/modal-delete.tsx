@@ -28,7 +28,7 @@ export default function ModalDelete({ showModal, setShowModal, kerusakan, setKer
         try {
             setSubmitClicked(true);
 
-            const api = `http://localhost:3000/api/kerusakan/${kerusakan.id}`
+            const api = `http://aksipriteps.site/api/kerusakan/${kerusakan.id}`
             const method = 'DELETE'
 
             const result = await fetch(api, {

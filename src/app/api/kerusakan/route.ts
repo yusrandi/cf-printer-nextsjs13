@@ -5,7 +5,9 @@ import { Kerusakan } from "prisma/prisma-client";
 export async function GET(request: Request) {
  try {
   const kerusakans = await prisma.kerusakan.findMany({
-    select: { id: true, kerusakanCode: true, kerusakanName: true },
+    select: { id: true, kerusakanCode: true, kerusakanName: true, perbaikan: true, pengetahuans: {
+      select: { id: true, kerusakan: true, kerusakanId: true, evidence: true, evidenceId: true, bobot: true },
+    } },
     orderBy: [
       {
         kerusakanCode: 'asc',
@@ -39,20 +41,21 @@ export async function POST(request: Request) {
   if (kerusakanExist) {
     return new Response(JSON.stringify({
       responsecode : 0,
-      responsemsg : 'failed',
-      responsedata : 'Kerusakan Code harus unik',
+      responsemsg : 'Kerusakan Code harus unik',
+      responsedata : [],
     }))
   }
 
     const kerusakan = await prisma.kerusakan.create({
         data: {
             kerusakanCode: body.kerusakanCode,
-            kerusakanName: body.kerusakanName
+            kerusakanName: body.kerusakanName,
+            perbaikan: body.perbaikan
         }
     })
     
     const kerusakans = await prisma.kerusakan.findMany({
-      select: { id: true,kerusakanCode: true, kerusakanName: true },
+    select: { id: true, kerusakanCode: true, kerusakanName: true, perbaikan: true },
       orderBy: [
         {
           kerusakanCode: 'asc',
@@ -71,8 +74,8 @@ export async function POST(request: Request) {
 
   return new Response(JSON.stringify({
     responsecode : 0,
-    responsemsg : 'failed',
-    responsedata : error,
+    responsemsg : error,
+    responsedata : [],
   }))
   
  }

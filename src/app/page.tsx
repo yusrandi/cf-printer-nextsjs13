@@ -1,7 +1,10 @@
+'use client'
 import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import { BarList, Button, Card, Flex, Grid, Metric, Text, Title } from '@tremor/react'
 import Chart from '@/components/chart'
+import { useEffect, useState } from 'react';
+import { Evidence, Kerusakan } from 'prisma/prisma-client';
 
 const website = [
   { name: '/home', value: 1230 },
@@ -55,17 +58,17 @@ const categories: {
   metricPrev: string;
 }[] = [
     {
-      title: 'Sales',
+      title: 'Kerusakan',
       metric: '$ 12,699',
       metricPrev: '$ 9,456'
     },
     {
-      title: 'Profit',
+      title: 'Evidence',
       metric: '$ 40,598',
       metricPrev: '$ 45,564'
     },
     {
-      title: 'Customers',
+      title: 'Pengetahuan',
       metric: '1,072',
       metricPrev: '856'
     }
@@ -75,31 +78,98 @@ const categories: {
 
 export default function HomePage() {
 
+  const [kerusakans, setKerusakans] = useState<Kerusakan[]>([]);
+  const [evidences, setEvidences] = useState<Evidence[]>([]);
+  const [pengetahuans, setPengetahuans] = useState<Evidence[]>([]);
+  const [isLoading, setLoading] = useState<boolean>(true)
+
+  useEffect(() => {
+    getKerusakans()
+  }, [])
+  useEffect(() => {
+    getEvidences()
+  }, [])
+  useEffect(() => {
+    getPengetahuans()
+  }, [])
+
+  async function getKerusakans() {
+    setLoading(true)
+    const result = await fetch('/api/kerusakan', { headers: { 'Cache-Control': 'no-cache' } })
+      .then((res) => res.json());
+    // console.log(result.responsedata);
+    setKerusakans(result.responsedata)
+    setLoading(false)
+    return result
+  }
+  async function getEvidences() {
+    setLoading(true)
+    const result = await fetch('/api/evidence', { headers: { 'Cache-Control': 'no-cache' } })
+      .then((res) => res.json());
+    // console.log(result.responsedata);
+    setEvidences(result.responsedata)
+    setLoading(false)
+    return result
+  }
+  async function getPengetahuans() {
+    setLoading(true)
+    const result = await fetch('/api/pengetahuan', { headers: { 'Cache-Control': 'no-cache' } })
+      .then((res) => res.json());
+    // console.log(result.responsedata);
+    setPengetahuans(result.responsedata)
+    setLoading(false)
+    return result
+  }
+
   return (
     <main className="p-4 md:p-10 mx-auto max-w-7xl">
       <Title>Dashboard</Title>
       <Text>
-        A list of users retrieved from a MySQL database (PlanetScale).
+        Diagnosa Kerusakan Printer Menggunakan Metode Certainty Factor.
       </Text>
       <Grid className="gap-6 mt-6" numColsSm={2} numColsLg={3}>
-        {categories.map((item) => (
-          <Card key={item.title}>
-            <Flex alignItems="start">
-              <Text>{item.title}</Text>
-            </Flex>
-            <Flex
-              className="space-x-3 truncate"
-              justifyContent="start"
-              alignItems="baseline"
-            >
-              <Metric>{item.metric}</Metric>
-              <Text className="truncate">from {item.metricPrev}</Text>
-            </Flex>
-          </Card>
-        ))}
+        <Card >
+          <Flex alignItems="start">
+            <Text>Data Kerusakan</Text>
+          </Flex>
+          <Flex
+            className="space-x-3 truncate"
+            justifyContent="start"
+            alignItems="baseline"
+          >
+            <Metric>{kerusakans.length}</Metric>
+            <Text className="truncate">data</Text>
+          </Flex>
+        </Card>
+        <Card >
+          <Flex alignItems="start">
+            <Text>Data Evidence</Text>
+          </Flex>
+          <Flex
+            className="space-x-3 truncate"
+            justifyContent="start"
+            alignItems="baseline"
+          >
+            <Metric>{evidences.length}</Metric>
+            <Text className="truncate">data</Text>
+          </Flex>
+        </Card>
+        <Card >
+          <Flex alignItems="start">
+            <Text>Data Basis Pengetahuan</Text>
+          </Flex>
+          <Flex
+            className="space-x-3 truncate"
+            justifyContent="start"
+            alignItems="baseline"
+          >
+            <Metric>{pengetahuans.length}</Metric>
+            <Text className="truncate">data</Text>
+          </Flex>
+        </Card>
       </Grid>
 
-      <Grid className="mt-8 gap-6" numColsSm={2} numColsLg={3}>
+      {/* <Grid className="mt-8 gap-6" numColsSm={2} numColsLg={3}>
         {data.map((item) => (
           <Card key={item.category}>
             <Title>{item.category}</Title>
@@ -122,7 +192,7 @@ export default function HomePage() {
             />
           </Card>
         ))}
-      </Grid>
+      </Grid> */}
 
 
       <Chart />

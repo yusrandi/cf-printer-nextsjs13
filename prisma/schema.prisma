@@ -21,35 +21,54 @@ model User {
   email     String    @unique
   name      String
   password  String?
-  role      Role?     @default(USER)
-  posts     Post[]
+  role      Role?     @default(ADMIN)
+  diagnosas Diagnosa[]   
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  published Boolean  @default(false)
-  title     String   
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  Int?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 model Kerusakan {
-  id                Int      @id @default(autoincrement())
-  kerusakanCode    String?  @unique
-  kerusakanName    String?  
-  createdAt         DateTime? @default(now())
-  updatedAt         DateTime? @updatedAt
+  id              Int      @id @default(autoincrement())
+  kerusakanCode   String?  @unique
+  kerusakanName   String?
+  perbaikan       String @db.Text
+  pengetahuans    Pengetahuan[]   
+  diagnosas       Diagnosa[]   
+  createdAt       DateTime? @default(now())
+  updatedAt       DateTime? @updatedAt
 }
 model Evidence {
-  id                Int      @id @default(autoincrement())
-  evidenceCode      String   @unique
-  evidenceName      String  
-  createdAt         DateTime? @default(now())
-  updatedAt         DateTime? @updatedAt
+  id              Int      @id @default(autoincrement())
+  evidenceCode    String   @unique
+  evidenceName    String  
+  pengetahuans    Pengetahuan[]   
+  createdAt       DateTime? @default(now())
+  updatedAt       DateTime? @updatedAt
 }
+
+model Pengetahuan {
+  id            Int      @id @default(autoincrement())
+  kerusakan     Kerusakan @relation(fields: [kerusakanId], references: [id])
+  kerusakanId   Int
+  evidence      Evidence @relation(fields: [evidenceId], references: [id])
+  evidenceId    Int
+  bobot         Float
+  createdAt     DateTime? @default(now())
+  updatedAt     DateTime? @updatedAt
+}
+
+model Diagnosa {
+  id            Int      @id @default(autoincrement())
+  datetime      String
+  kerusakan     Kerusakan @relation(fields: [kerusakanId], references: [id])
+  kerusakanId   Int
+  user          User @relation(fields: [userId], references: [id])
+  userId        Int
+  nilai         Float
+  createdAt     DateTime? @default(now())
+  updatedAt     DateTime? @updatedAt
+}
+
+
 
 

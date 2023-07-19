@@ -4,7 +4,7 @@ import * as bcrypt from 'bcrypt'
 import { signJwtAccesToken } from "@/lib/jwt";
 
 interface RequestBody{
-    username: string;
+    email: string;
     password: string;
 }
 export async function POST(request:Request) {
@@ -12,7 +12,7 @@ export async function POST(request:Request) {
     
     const user = await prisma.user.findFirst({
         where: {
-            email: body.username
+            email: body.email
         }
     })
 
@@ -25,5 +25,10 @@ export async function POST(request:Request) {
         }
 
         return new Response(JSON.stringify(result))
-    }else return new Response(JSON.stringify(null))
+    }else return new Response(JSON.stringify({
+        "id": 0,
+        "email": "",
+        "name": "Invalid email or password",
+        "role": "",
+    }))
 }

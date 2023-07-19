@@ -34,8 +34,10 @@ export default function TableKerusakan({ kerusakans, isLoading, handleDelete, se
                     kerusakans.length === 0 ? <Text>List is Empty</Text> : <Table className="mt-6">
                         <TableHead>
                             <TableRow>
+                                <TableHeaderCell>#</TableHeaderCell>
                                 <TableHeaderCell>Kode Kerusakan</TableHeaderCell>
                                 <TableHeaderCell >Nama Kerusakan</TableHeaderCell>
+                                <TableHeaderCell >Perbaikan</TableHeaderCell>
                                 <TableHeaderCell className="text-right">
                                     Aksi
                                 </TableHeaderCell>
@@ -47,8 +49,10 @@ export default function TableKerusakan({ kerusakans, isLoading, handleDelete, se
                             {kerusakans
                                 .map((item: Kerusakan, index) => (
                                     <TableRow key={index}>
+                                        <TableCell width={50}>{index + 1}</TableCell>
                                         <TableCell width={50}>{item.kerusakanCode}</TableCell>
                                         <TableCell>{item.kerusakanName}</TableCell>
+                                        <TableCell>{item.perbaikan}</TableCell>
                                         <TableCell className="text-right items-end gap-2 flex flex-row justify-end">
 
                                             <PencilSquareIcon

@@ -15,7 +15,9 @@ const navigation = [
   { name: 'Dashboard', href: '/' },
   { name: 'Pengguna', href: '/user' },
   { name: 'Kerusakan', href: '/kerusakan' },
-  { name: 'Evidence', href: '/evidence' }
+  { name: 'Evidence', href: '/evidence' },
+  { name: 'Pengetahuan', href: '/pengetahuan' },
+  { name: 'Riwayat', href: '/diagnosa' }
 ];
 
 function classNames(...classes: string[]) {

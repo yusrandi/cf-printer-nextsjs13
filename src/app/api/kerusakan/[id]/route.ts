@@ -5,8 +5,8 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
     const id = params.id
     try {
         const kerusakan = await prisma.kerusakan.findFirst({
-            select: { id: true, kerusakanCode: true, kerusakanName: true },
-            where:{id: Number.parseInt(id)}
+          select: { id: true, kerusakanCode: true, kerusakanName: true, perbaikan: true },
+              where:{id: Number.parseInt(id)}
         })
 
         if (!kerusakan) {
@@ -37,22 +37,24 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
     const id = params.id
     try {
         const kerusakan = await prisma.kerusakan.findFirst({
-            select: { kerusakanCode: true, kerusakanName: true },
+          select: { id: true, kerusakanCode: true, kerusakanName: true, perbaikan: true },
+
             where:{id: Number.parseInt(id)}
         })
 
         if (!kerusakan) {
               return NextResponse.json({
                 responsecode : 0,
-                responsemsg : 'failed',
-                responsedata : 'Data tidak ditemukan',
+                responsemsg : 'Data tidak ditemukan',
+                responsedata : [],
               });
         }
 
         const updatedKerusakan: Kerusakan = await prisma.kerusakan.update({
             data: {
                 kerusakanCode: body.kerusakanCode,
-                kerusakanName: body.kerusakanName
+                kerusakanName: body.kerusakanName,
+                perbaikan: body.perbaikan
             },
             where: {
               id:Number.parseInt(id),
@@ -60,7 +62,7 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
           })
 
           const kerusakans = await prisma.kerusakan.findMany({
-            select: { id: true, kerusakanName: true, kerusakanCode: true },
+    select: { id: true, kerusakanCode: true, kerusakanName: true, perbaikan: true },
             orderBy: [
               {
                 kerusakanCode: 'asc',
@@ -79,8 +81,8 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
         console.log(error);
         return NextResponse.json({
           responsecode : 0,
-          responsemsg : 'failed',
-          responsedata : error,
+          responsemsg : error,
+          responsedata : [],
       });
         
     }
@@ -98,19 +100,19 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
         if (!kerusakan) {
               return NextResponse.json({
                 responsecode : 0,
-                responsemsg : 'failed',
-                responsedata : 'Data tidak ditemukan',
+                responsemsg : 'Data tidak ditemukan',
+                responsedata : [],
               });
         }
 
-        const updatedKerusakan: Kerusakan = await prisma.kerusakan.delete({
+       await prisma.kerusakan.delete({
             where: {
               id: Number.parseInt(id),
             },
           })
 
           const kerusakans = await prisma.kerusakan.findMany({
-            select: { id: true,kerusakanCode: true, kerusakanName: true },
+            select: { id: true, kerusakanCode: true, kerusakanName: true, perbaikan: true },
             orderBy: [
               {
                 kerusakanCode: 'asc',
@@ -129,8 +131,8 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
         console.log(error);
         return NextResponse.json({
             responsecode : 0,
-            responsemsg : 'failed',
-            responsedata : error,
+            responsemsg : error,
+            responsedata : [],
         });
         
     }

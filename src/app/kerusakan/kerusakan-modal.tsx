@@ -15,6 +15,7 @@ export default function KerusakanModal({ showKerusakanModal, setShowKerusakanMod
   const [submitClicked, setSubmitClicked] = useState(false);
   const [errorCode, setErrorCode] = useState(false);
   const [errorName, setErrorName] = useState(false);
+  const [errorPerbaikan, setErrorPerbaikan] = useState(false);
 
   const router = useRouter()
 
@@ -22,6 +23,7 @@ export default function KerusakanModal({ showKerusakanModal, setShowKerusakanMod
   function clearText() {
     setErrorCode(false)
     setErrorName(false)
+    setErrorPerbaikan(false)
   }
 
   function setTimeoutSuccess() {
@@ -49,11 +51,16 @@ export default function KerusakanModal({ showKerusakanModal, setShowKerusakanMod
       return
 
     }
-    let api: string = 'http://localhost:3000/api/kerusakan'
+    if (kerusakan.perbaikan === '') {
+      setErrorPerbaikan(true)
+      return
+
+    }
+    let api: string = 'http://aksipriteps.site/api/kerusakan'
     let method: string = 'POST'
 
     if (title === 'Update') {
-      api = `http://localhost:3000/api/kerusakan/${kerusakan.id}`
+      api = `http://aksipriteps.site/api/kerusakan/${kerusakan.id}`
       method = 'PATCH'
 
     }
@@ -70,6 +77,7 @@ export default function KerusakanModal({ showKerusakanModal, setShowKerusakanMod
         body: JSON.stringify({
           kerusakanCode: kerusakan.kerusakanCode,
           kerusakanName: kerusakan.kerusakanName,
+          perbaikan: kerusakan.perbaikan,
         }),
       }).then((res) => res.json());
 
@@ -112,6 +120,7 @@ export default function KerusakanModal({ showKerusakanModal, setShowKerusakanMod
 
           <TextInput error={errorCode} placeholder="Kerusakan Kode" autoFocus value={kerusakan.kerusakanCode!} onChange={(e) => setKerusakan({ ...kerusakan, kerusakanCode: e.target.value })} />
           <TextInput error={errorName} placeholder="Kerusakan Nama" value={kerusakan.kerusakanName!} onChange={(e) => setKerusakan({ ...kerusakan, kerusakanName: e.target.value })} />
+          <TextInput error={errorPerbaikan} placeholder="Perbaikan" value={kerusakan.perbaikan!} onChange={(e) => setKerusakan({ ...kerusakan, perbaikan: e.target.value })} />
 
         </div>
 

@@ -125,7 +125,7 @@ export default function EvidencePage() {
         try {
             setSubmitClicked(true);
 
-            const api = `http://localhost:3000/api/evidence/${evidence.id}`
+            const api = `http://aksipriteps.site/api/evidence/${evidence.id}`
             const method = 'DELETE'
 
             const result = await fetch(api, {
@@ -216,7 +216,7 @@ export default function EvidencePage() {
                     icon={CheckCircleIcon}
                     color="teal"
                 >
-                    Turbine reached critical speed .
+                    Success .
                 </Callout>
             }
             <Card className="flex w-full items-center justify-center mt-6">

@@ -43,8 +43,8 @@ export async function POST(request: Request) {
   if (evidenceExist) {
     return new Response(JSON.stringify({
       responsecode : 0,
-      responsemsg : 'failed',
-      responsedata : 'evidence Code harus unik',
+      responsemsg : 'evidence Code harus unik',
+      responsedata : [],
     }))
   }
 
@@ -75,8 +75,8 @@ export async function POST(request: Request) {
 
   return new Response(JSON.stringify({
     responsecode : 0,
-    responsemsg : 'failed',
-    responsedata : error,
+    responsemsg : error,
+    responsedata : [],
   }))
   
  }

@@ -20,7 +20,8 @@ const emptyKerusakan: Kerusakan = {
     kerusakanName: '',
     id: 0,
     createdAt: null,
-    updatedAt: null
+    updatedAt: null,
+    perbaikan: ''
 }
 
 export default function KerusakanPage() {
@@ -41,7 +42,7 @@ export default function KerusakanPage() {
     async function getKerusakans() {
         setLoading(true)
 
-        const result = await fetch('http://localhost:3000/api/kerusakan', { headers: { 'Cache-Control': 'no-cache' } })
+        const result = await fetch('http://aksipriteps.site/api/kerusakan', { headers: { 'Cache-Control': 'no-cache' } })
             .then((res) => res.json());
         // console.log(result.responsedata);
 

@@ -44,8 +44,8 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
         if (!evidence) {
               return NextResponse.json({
                 responsecode : 0,
-                responsemsg : 'failed',
-                responsedata : 'Data tidak ditemukan',
+                responsemsg : 'Data tidak ditemukan',
+                responsedata : [],
               });
         }
 
@@ -79,8 +79,8 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
         console.log(error);
         return NextResponse.json({
           responsecode : 0,
-          responsemsg : 'failed',
-          responsedata : error,
+          responsemsg : error,
+          responsedata : [],
       });
         
     }
@@ -98,8 +98,8 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
         if (!evidence) {
               return NextResponse.json({
                 responsecode : 0,
-                responsemsg : 'failed',
-                responsedata : 'Data tidak ditemukan',
+                responsemsg : 'Data tidak ditemukan',
+                responsedata : [],
               });
         }
 
@@ -129,8 +129,8 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
         console.log(error);
         return NextResponse.json({
             responsecode : 0,
-            responsemsg : 'failed',
-            responsedata : error,
+            responsemsg : error,
+            responsedata : [],
         });
         
     }

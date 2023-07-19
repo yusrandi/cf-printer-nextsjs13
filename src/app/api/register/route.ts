@@ -1,11 +1,13 @@
 import prisma from "@/lib/prisma"
 import * as bcrypt from 'bcrypt'
+import { Role } from "prisma/prisma-client";
 
 
 interface RequestBody{
     name: string;
     email: string;
     password: string;
+    role: string;
 }
 export async function POST(request:Request) {
 
@@ -20,15 +22,16 @@ export async function POST(request:Request) {
     
     if (userExist) return new Response(JSON.stringify({
         responsecode : 0,
-        responsemsg : 'User Not Found',
+        responsemsg : 'User already exist',
         responsedata : {},
 
-    }), {status: 400})
+    }))
 
     const user = await prisma.user.create({
         data: {
             name: body.name,
             email: body.email,
+            role: body.role as Role,
             password: await bcrypt.hash(body.password, 10),
         }
     })
