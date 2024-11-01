@@ -17,8 +17,8 @@ POST http://aksipriteps.site/api/register
 Content-Type: application/json
 
 {
-    "name": "user2",
-    "email": "user2@use.use",
+    "name": "user",
+    "email": "user@use.use",
     "password": "1sampai8",
     "role": "USER"
 }
@@ -28,7 +28,7 @@ POST http://aksipriteps.site/api/login
 Content-Type: application/json
 
 {
-    "username": "use@use.use",
+    "email": "use@use.use",
     "password": "1sampai8"
 }
 

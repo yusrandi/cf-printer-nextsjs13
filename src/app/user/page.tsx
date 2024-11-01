@@ -159,7 +159,8 @@ export default function UserPage() {
   function handleEdit(user: User) {
     clearText()
     setTitle('Update')
-    setUser(user)
+
+    setUser({ ...user, password: "" })
     setShowModal(true)
   }
 
@@ -175,11 +176,35 @@ export default function UserPage() {
 
       <Title className=''>Data Pengguna</Title>
       <Text>
-        A list of users retrieved from a MySQL database .
+        List pengguna berdasarkan hak akses.
       </Text>
 
-      <HeaderBody title='Tambah Pengguna' handleClick={handleCreate} />
+      {/* <HeaderBody title='Tambah Pengguna' handleClick={handleCreate} /> */}
 
+      <div>
+        <div className="sm:mt-6 hidden sm:flex sm:start sm:space-x-2 justify-between">
+
+          {/* <Search /> */}
+          <div></div>
+          <button
+            onClick={handleCreate}
+            className="text-white text-[13px] font-mono bg-black border hover:bg-white hover:text-black transition-all rounded-md px-10 py-2 duration-75 flex items-center justify-center whitespace-nowrap hover:border-gray-800 "
+          >
+            {title}
+          </button>
+        </div>
+        <div className="mt-6 sm:hidden space-y-2 sm:space-y-0">
+          {/* <Search /> */}
+          <div></div>
+
+          <button
+            onClick={handleCreate}
+            className="w-full text-white text-[13px] font-mono bg-black border hover:bg-white hover:text-black transition-all rounded-md px-10 py-2 duration-75 flex items-center justify-center whitespace-nowrap hover:border-gray-800 float-right"
+          >
+            {title}
+          </button>
+        </div>
+      </div>
       {
         isSucces && <Callout
           className="h-12 mt-4"

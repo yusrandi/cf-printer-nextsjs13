@@ -21,9 +21,11 @@ export async function POST(request:Request) {
 
     
     if (userExist) return new Response(JSON.stringify({
-        responsecode : 0,
-        responsemsg : 'User already exist',
-        responsedata : {},
+            id: 0,
+            name: "Email telah tersedia",
+            email: "",
+            role: "",
+            password: "",
 
     }))
 

@@ -52,9 +52,16 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
         }
 
         let password = user.password
-        if (body.password !== null || body.password !== '' || body.password !== undefined) {
+
+        console.log(`body.password ${body.password}`);
+        
+        if (body.password !== "") {
             password = await bcrypt.hash(body.password!, 10)
         }
+
+        console.log(`password ${password}`);
+
+
 
         const updateduser: User = await prisma.user.update({
             data: {

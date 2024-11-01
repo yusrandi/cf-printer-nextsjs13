@@ -1,6 +1,6 @@
 'use client'
 import HeaderBody from '@/components/header-body'
-import { CheckCircleIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid'
+import { CheckCircleIcon, MagnifyingGlassIcon, PencilSquareIcon, TrashIcon } from '@heroicons/react/24/solid'
 import { Callout, Card, Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow, Text, Title } from '@tremor/react'
 import { Evidence, Kerusakan, Pengetahuan } from 'prisma/prisma-client'
 import React, { SyntheticEvent, useEffect, useState } from 'react'
@@ -12,7 +12,10 @@ import { EvidenceService } from '../evidence/services'
 import { KerusakanService } from '../kerusakan/services'
 
 const emptyEvidence: Evidence = { id: 0, evidenceCode: '', evidenceName: '', createdAt: null, updatedAt: null }
-const emptyKerusakan: Kerusakan = { kerusakanCode: '', kerusakanName: '', id: 0, createdAt: null, updatedAt: null, perbaikan: '' }
+const emptyKerusakan: Kerusakan = {
+    kerusakanCode: '', kerusakanName: '', id: 0, createdAt: null, updatedAt: null, perbaikan: '',
+    pengetahuans: []
+}
 
 const emptyPengetahuan: Pengetahuan = { id: 0, evidenceId: 0, evidence: emptyEvidence, kerusakanId: 0, kerusakan: emptyKerusakan, bobot: 0, createdAt: null, updatedAt: null }
 
@@ -22,6 +25,7 @@ export default function PengetahuanPage() {
     const [isLoading, setLoading] = useState<boolean>(true)
 
     const [pengetahuans, setPengetahuans] = useState<Pengetahuan[]>([]);
+    const [pengetahuansSelected, setPengetahuansSelected] = useState<Pengetahuan[]>([]);
     const [pengetahuan, setPengetahuan] = useState<Pengetahuan>(emptyPengetahuan);
 
 
@@ -41,6 +45,7 @@ export default function PengetahuanPage() {
         PengetahuanService.getData().then((data) => {
             console.log({ data });
             setPengetahuans(data.responsedata)
+            setPengetahuansSelected(data.responsedata)
             setLoading(false)
         })
     }, []);
@@ -111,6 +116,7 @@ export default function PengetahuanPage() {
                 console.log({ data });
                 if (data.responsecode === 1) {
                     setPengetahuans(data.responsedata)
+                    setPengetahuansSelected(data.responsedata)
 
                     setTimeoutSuccess()
                 } else {
@@ -129,6 +135,7 @@ export default function PengetahuanPage() {
             await PengetahuanService.updateData(pengetahuan).then((data) => {
                 console.log({ data });
                 setPengetahuans(data.responsedata)
+                setPengetahuansSelected(data.responsedata)
                 setLoading(false)
 
                 setTimeoutSuccess()
@@ -149,6 +156,7 @@ export default function PengetahuanPage() {
             await PengetahuanService.deleteData(pengetahuan).then((data) => {
                 console.log({ data });
                 setPengetahuans(data.responsedata)
+                setPengetahuansSelected(data.responsedata)
                 setLoading(false)
                 setTimeoutSuccess()
             })
@@ -190,7 +198,7 @@ export default function PengetahuanPage() {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {pengetahuans
+                    {pengetahuansSelected
                         .map((item: Pengetahuan, index) => (
                             <TableRow key={index}>
                                 <TableCell width={50}>{index + 1}</TableCell>
@@ -220,6 +228,14 @@ export default function PengetahuanPage() {
         )
     }
 
+    function handleSearch(term: string) {
+        console.log({ term });
+
+        console.log();
+        setPengetahuansSelected(pengetahuans.filter((pengetahuan: Pengetahuan) => pengetahuan.kerusakan.kerusakanName?.includes(term) || pengetahuan.evidence.evidenceName?.includes(term)))
+
+    }
+
     return (
         <main className="p-4 md:p-10 mx-auto max-w-7xl">
 
@@ -231,7 +247,82 @@ export default function PengetahuanPage() {
                 list data basis pengetahuan beserta bobot gejala pada printer.
             </Text>
 
-            <HeaderBody title='Create Data' handleClick={handleCreate} />
+            {/* <HeaderBody title='Create Data' handleClick={handleCreate} /> */}
+            <div>
+                <div className="sm:mt-6 hidden sm:flex sm:start sm:space-x-2 justify-between">
+
+                    {/* <Search /> */}
+                    <div className="relative w-full max-w-md">
+                        <label htmlFor="search" className="sr-only">
+                            Search
+                        </label>
+                        <div className="rounded-md shadow-sm">
+                            <div
+                                className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
+                                aria-hidden="true"
+                            >
+                                <MagnifyingGlassIcon
+                                    className="mr-3 h-4 w-4 text-gray-400"
+                                    aria-hidden="true"
+                                />
+                            </div>
+                            <input
+                                type="text"
+                                name="search"
+                                id="search"
+                                className="h-10 block w-full rounded-md border border-gray-200 pl-9 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                placeholder="Cari berdasarkan Nama Kerusakan / Nama Evidence... (case sensitif) "
+                                spellCheck={false}
+                                onChange={(e) => handleSearch(e.target.value)}
+                            />
+                        </div>
+
+
+                    </div>
+                    <button
+                        onClick={handleCreate}
+                        className="text-white text-[13px] font-mono bg-black border hover:bg-white hover:text-black transition-all rounded-md px-10 py-2 duration-75 flex items-center justify-center whitespace-nowrap hover:border-gray-800"
+                    >
+                        {title}
+                    </button>
+                </div>
+                <div className="mt-6 sm:hidden space-y-2 sm:space-y-0">
+                    <div className="relative w-full max-w-md">
+                        <label htmlFor="search" className="sr-only">
+                            Search
+                        </label>
+                        <div className="rounded-md shadow-sm">
+                            <div
+                                className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3"
+                                aria-hidden="true"
+                            >
+                                <MagnifyingGlassIcon
+                                    className="mr-3 h-4 w-4 text-gray-400"
+                                    aria-hidden="true"
+                                />
+                            </div>
+                            <input
+                                type="text"
+                                name="search"
+                                id="search"
+                                className="h-10 block w-full rounded-md border border-gray-200 pl-9 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                placeholder="Cari berdasarkan Nama Kerusakan... (case sensitif) "
+                                spellCheck={false}
+                                onChange={(e) => handleSearch(e.target.value)}
+                            />
+                        </div>
+
+
+                    </div>
+
+                    <button
+                        onClick={handleCreate}
+                        className="w-full text-white text-[13px] font-mono bg-black border hover:bg-white hover:text-black transition-all rounded-md px-10 py-2 duration-75 flex items-center justify-center whitespace-nowrap hover:border-gray-800 "
+                    >
+                        {title}
+                    </button>
+                </div>
+            </div>
 
             {
                 isSucces && <Callout
@@ -265,7 +356,7 @@ export default function PengetahuanPage() {
                             className='object-contain'
                         />
                         :
-                        pengetahuans.length === 0 ? <Text>List is Empty</Text>
+                        pengetahuansSelected.length === 0 ? <Text>List is Empty</Text>
                             : <TablePengetahuan />
                 }
             </Card>

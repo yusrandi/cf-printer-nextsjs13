@@ -17,7 +17,8 @@ const navigation = [
   { name: 'Kerusakan', href: '/kerusakan' },
   { name: 'Evidence', href: '/evidence' },
   { name: 'Pengetahuan', href: '/pengetahuan' },
-  { name: 'Riwayat', href: '/diagnosa' }
+  { name: 'Rules', href: '/rule' },
+  { name: 'Riwayat', href: '/diagnosa' },
 ];
 
 function classNames(...classes: string[]) {
